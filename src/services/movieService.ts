@@ -19,20 +19,14 @@ interface MoviesResponse {
 
 async function fetchMovies({
   query,
-  page = 1,
-}: FetchMoviesParams): Promise<Movie[]> {
-  const config = {
-    params: {
-      query,
-      page,
-    },
-    headers: {
-      Authorization: `Bearer ${TOKEN}`,
-    },
-  };
-  const response = await axios.get<MoviesResponse>(BASE_URL, config);
-
-  return response.data.results;
+  page,
+}: FetchMoviesParams): Promise<MoviesResponse> {
+  const { data } = await axios.get<MoviesResponse>(BASE_URL, {
+    params: { query, page },
+    headers: { Authorization: `Bearer ${TOKEN}` },
+  });
+  console.log(data.results);
+  return data;
 }
 
 export default fetchMovies;
